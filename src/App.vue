@@ -1,32 +1,22 @@
 <template>
-  <div id="app">
-    <div id="nav">
-      <router-link to="/">Home</router-link> |
-      <router-link to="/about">About</router-link>
-    </div>
-    <router-view/>
+  <div class="app">
+    <b-navbar class="is-primary" wrapper-class="container">
+      <template slot="end">
+        <b-navbar-item tag="router-link" :to="{name: 'Login'}">Логин</b-navbar-item>
+      </template>
+    </b-navbar>
+    <main class="content is-light">
+      <router-view />
+    </main>
   </div>
 </template>
 
 <style>
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
+.root {
+  height: 100vh;
+  max-height: 1000px;
 }
-
-#nav {
-  padding: 30px;
-}
-
-#nav a {
-  font-weight: bold;
-  color: #2c3e50;
-}
-
-#nav a.router-link-exact-active {
-  color: #42b983;
+.content {
+  height: 100%;
 }
 </style>
