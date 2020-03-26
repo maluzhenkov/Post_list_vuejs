@@ -1,22 +1,20 @@
 <template>
-  <div class="app">
-    <b-navbar class="is-primary" wrapper-class="container">
-      <template slot="end">
-        <b-navbar-item tag="router-link" :to="{name: 'Login'}">Логин</b-navbar-item>
-      </template>
-    </b-navbar>
-    <main class="content is-light">
-      <router-view />
-    </main>
-  </div>
+  <vue-extend-layouts path="layouts" />
 </template>
 
-<style>
-.root {
-  height: 100vh;
-  max-height: 1000px;
-}
-.content {
-  height: 100%;
-}
-</style>
+<script>
+import VueExtendLayouts from "vue-extend-layout";
+export default {
+  components: { VueExtendLayouts },
+  computed: {
+    layout() {
+      return this.$route.meta.layout || "empty";
+    }
+  },
+  mounted() {
+    //проверяем есть ли данные в localStorage
+    this.$store.dispatch("login");
+  }
+};
+</script>
+

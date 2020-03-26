@@ -1,19 +1,36 @@
 import Vue from "vue";
 import VueRouter from "vue-router";
-import Home from "../views/Home.vue";
 
 Vue.use(VueRouter);
 
 const routes = [
   {
-    path: "/",
-    name: "Home",
-    component: Home
+    path: "/posts/page/:page",
+    name: "Posts",
+    component: () => import("@/views/Posts.vue"),
+    meta: {
+      layout: "default"
+    }
+  },
+  {
+    path: "/postEdit",
+    name: "PostEdit",
+    component: () => import("@/views/PostEdit.vue"),
+    meta: {
+      layout: "default"
+    }
   },
   {
     path: "/login",
     name: "Login",
-    component: () => import("../views/Login.vue")
+    component: () => import("@/views/Login.vue"),
+    meta: {
+      layout: "empty"
+    }
+  },
+  {
+    path: "*",
+    redirect: { name: "Posts" }
   }
 ];
 

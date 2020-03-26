@@ -1,7 +1,7 @@
 <template>
-  <div class="container">
-    <div class="column box is-two-fifths is-offset-one-quarter mt-2">
-      <h2 class="title has-text-centered">Логин</h2>
+  <div class="container align-center">
+    <div class="column box login-form mt-2">
+      <h2 class="title has-text-centered">Авторизация</h2>
 
       <b-field label="Email" :type="isValid('email')" :message="emailFeadback">
         <b-input v-model.trim="email" type="email" maxlength="60"></b-input>
@@ -20,6 +20,11 @@
           @click="signin"
         >Войти</b-button>
       </div>
+    </div>
+    <div class="has-text-centered">
+      <div>Writer: user1@gmail.com</div>
+      <div>Reader: user2@gmail.com</div>
+      <div>password: 123456</div>
     </div>
   </div>
 </template>
@@ -63,7 +68,7 @@ export default {
     }
   },
   methods: {
-    async signin() {
+    signin() {
       this.$v.$touch();
 
       if (!this.$v.$invalid) {
@@ -100,5 +105,14 @@ export default {
 <style>
 .mt-2 {
   margin-top: 2em;
+}
+.login-form {
+  width: 400px;
+  max-width: 600px;
+}
+.align-center {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 </style>
