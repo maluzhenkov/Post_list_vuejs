@@ -3,27 +3,30 @@
     <div class="column box login-form mt-2">
       <h2 class="title has-text-centered">Авторизация</h2>
 
-      <b-field label="Email" :type="isValid('email')" :message="emailFeadback">
-        <b-input v-model.trim="email" type="email" maxlength="60"></b-input>
-      </b-field>
+      <form @submit.prevent="signin">
+        <b-field label="Email" :type="isValid('email')" :message="emailFeadback">
+          <b-input v-model.trim="email" type="email" maxlength="60"></b-input>
+        </b-field>
 
-      <b-field label="Пароль" :type="isValid('password')" :message="passFeadback">
-        <b-input v-model.trim="password" type="password" maxlength="30" password-reveal></b-input>
-      </b-field>
+        <b-field label="Пароль" :type="isValid('password')" :message="passFeadback">
+          <b-input v-model.trim="password" type="password" maxlength="30" password-reveal></b-input>
+        </b-field>
 
-      <div class="buttons">
         <b-button
           type="is-success"
+          native-type="submit"
           expanded
           :disabled="($v.$dirty && $v.$invalid) || loading"
           :loading="loading"
-          @click="signin"
         >Войти</b-button>
-      </div>
+      </form>
     </div>
     <div class="has-text-centered">
-      <div>Writer: user1@gmail.com</div>
-      <div>Reader: user2@gmail.com</div>
+      <b>
+        <i>For test</i>
+      </b>
+      <div>Writer: writer@mail.com</div>
+      <div>Reader: reader@mail.com</div>
       <div>password: 123456</div>
     </div>
   </div>
@@ -37,17 +40,17 @@ export default {
   validations: {
     email: {
       required,
-      email
+      email,
     },
     password: {
       required,
-      minLength: minLength(2)
-    }
+      minLength: minLength(2),
+    },
   },
   data: () => ({
-    email: "user1@gmail.com",
+    email: "writer@mail.com",
     password: "123456",
-    loading: false
+    loading: false,
   }),
   computed: {
     emailFeadback() {
@@ -63,9 +66,9 @@ export default {
       return !this.$v.password.required
         ? "Введите пароль"
         : !this.$v.password.minLength
-        ? "фыв"
+        ? "Пароль должен состоять минимум из 2 символов"
         : "";
-    }
+    },
   },
   methods: {
     signin() {
@@ -73,21 +76,23 @@ export default {
 
       if (!this.$v.$invalid) {
         this.loading = true;
-        const data = {
+
+        const requestBody = {
           email: this.email,
-          password: this.password
+          password: this.password,
         };
+
         this.$store
-          .dispatch("signin", data)
+          .dispatch("signin", requestBody)
           .then(() => {
             this.$router.push("/");
           })
-          .catch(error => {
+          .catch((error) => {
             this.$buefy.toast.open({
               duration: 5000,
               message: error.message,
               position: "is-bottom",
-              type: "is-danger"
+              type: "is-danger",
             });
           })
           .finally(() => {
@@ -97,8 +102,8 @@ export default {
     },
     isValid(type) {
       return this.$v[type].$dirty && this.$v[type].$invalid ? "is-danger" : "";
-    }
-  }
+    },
+  },
 };
 </script>
 

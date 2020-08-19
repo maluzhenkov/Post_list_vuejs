@@ -6,15 +6,14 @@
         :key="post.id"
         :post="post"
         :role="role"
-        @likePost="likePost"
-        @editPost="editPost"
-        @deletePost="deletePost"
+        @clap-post="clapPost"
+        @edit-post="editPost"
+        @delete-post="deletePost"
       />
       <b-pagination
         :total="pagination.totalPosts"
         :current.sync="pagination.currentPage"
         :per-page="pagination.limitPosts"
-        order="is-centered"
         :icon-prev="'mdi mdi-chevron-left'"
         :icon-next="'mdi mdi-chevron-right'"
         @change="changePage"
@@ -41,7 +40,7 @@ export default {
     },
     role() {
       return this.$store.getters.getUserRole;
-    }
+    },
   },
   methods: {
     changePage(page) {
@@ -49,8 +48,9 @@ export default {
         this.$router.push({ name: "Posts", params: { page } });
       });
     },
-    likePost(post) {
-      this.$store.dispatch("fetchLikePost", post);
+    clapPost({ id, claps }) {
+      const newCountClaps = claps + 1;
+      this.$store.dispatch("fetchClapPost", { id, claps: newCountClaps });
     },
     editPost(post) {
       this.$router.push({ name: "PostEdit", params: { post } });
@@ -59,16 +59,16 @@ export default {
       if (confirm("Удалить пост?")) {
         this.$store.dispatch("fetchDeletePost", {
           id,
-          page: this.$route.params.page
+          page: this.$route.params.page,
         });
       }
-    }
+    },
   },
   mounted() {
     if (!this.$route.params.page) {
       this.$router.push({ name: "Posts", params: { page: 1 } });
     }
     this.$store.dispatch("fetchPostList", this.$route.params.page);
-  }
+  },
 };
 </script>

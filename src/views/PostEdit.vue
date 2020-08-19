@@ -2,7 +2,11 @@
   <div class="container">
     <div class="buttons gdeBlyatHelperClassVetomEbuchemBulma">
       <b-button icon-left="mdi mdi-arrow-left" @click="cansel">Отмена</b-button>
-      <b-button icon-left="mdi mdi-content-save" type="is-success" @click="updatePost">Сохранить</b-button>
+      <b-button
+        icon-left="mdi mdi-content-save"
+        type="is-success"
+        @click="editPost"
+      >{{edit ? 'Сохранить' : 'Добавить'}}</b-button>
     </div>
     <b-field label="Заголовок" :type="isValid('title')" :message="titleFeadback">
       <b-input size="is-medium" v-model.trim="post.title" />
@@ -21,15 +25,19 @@ export default {
   validations: {
     post: {
       title: {
-        required
+        required,
       },
       description: {
-        required
-      }
-    }
+        required,
+      },
+    },
   },
   data: () => ({
-    post: null
+    edit: false,
+    post: {
+      title: "",
+      description: "",
+    },
   }),
   computed: {
     titleFeadback() {
@@ -41,17 +49,18 @@ export default {
       return !this.$v.post.description.required
         ? "Поле не должно быть пустым"
         : "";
-    }
+    },
   },
   methods: {
     cansel() {
-      this.$router.go(-1);
+      this.$router.push({ name: "Posts" });
     },
-    updatePost() {
+    editPost() {
       this.$v.$touch();
       if (!this.$v.$invalid) {
-        this.$store.dispatch("fetchUpdatePost", this.post).then(() => {
-          this.$router.go(-1);
+        const action = this.edit ? "fetchUpdatePost" : "fetchCreatePost";
+        this.$store.dispatch(action, this.post).then(() => {
+          this.$router.push({ name: "Posts" });
         });
       }
     },
@@ -59,11 +68,14 @@ export default {
       return this.$v.post[type].$dirty && this.$v.post[type].$invalid
         ? "is-danger"
         : "";
-    }
+    },
   },
   created() {
-    this.post = this.$route.params.post;
-  }
+    if (this.$route.params.post) {
+      this.edit = true;
+      this.post = this.$route.params.post;
+    }
+  },
 };
 </script>
 

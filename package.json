@@ -5,23 +5,23 @@
   "scripts": {
     "serve": "vue-cli-service serve --mode development",
     "build": "vue-cli-service build",
-    "start": "json-server ./server/index.js",
+    "start": "json-server --watch ./server/db.json",
     "lint": "vue-cli-service lint"
   },
   "dependencies": {
     "axios": "^0.19.2",
-    "buefy": "^0.8.13",
-    "core-js": "^3.6.4",
+    "buefy": "^0.9.1",
+    "core-js": "^3.6.5",
     "vue": "^2.6.11",
     "vue-extend-layout": "^2.0.6",
-    "vue-router": "^3.1.5",
+    "vue-router": "^3.4.3",
     "vuelidate": "^0.7.5",
-    "vuex": "^3.1.2"
+    "vuex": "^3.5.1"
   },
   "devDependencies": {
-    "@vue/cli-plugin-babel": "^4.2.0",
-    "@vue/cli-plugin-eslint": "^4.2.0",
-    "@vue/cli-service": "^4.2.0",
+    "@vue/cli-plugin-babel": "^4.5.4",
+    "@vue/cli-plugin-eslint": "^4.5.4",
+    "@vue/cli-service": "^4.5.4",
     "babel-eslint": "^10.0.3",
     "eslint": "^6.7.2",
     "eslint-plugin-vue": "^6.1.2",

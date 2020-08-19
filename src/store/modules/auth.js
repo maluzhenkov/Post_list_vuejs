@@ -3,12 +3,12 @@ import axios from "../../plugins/Api";
 export default {
   state: {
     user: null,
-    isAuth: false
+    isAuth: false,
   },
   getters: {
-    getUser: state => state.user,
-    getIsAuth: state => state.isAuth,
-    getUserRole: state => state.user?.role
+    getUser: (state) => state.user,
+    getIsAuth: (state) => state.isAuth,
+    getUserRole: (state) => state.user?.role,
   },
   mutations: {
     SET_USER: (state, user) => {
@@ -17,18 +17,20 @@ export default {
         state.isAuth = true;
         state.user = user;
       }
-    }
+    },
   },
   actions: {
     async signin({ commit }, { email, password }) {
+      const errMsg = "Не верный логин или пароль";
       return axios()
         .get(`/users?login=${email}`)
-        .then(res => {
+        .then((res) => {
           if (res.statusText === "OK" && res.data.length > 0) {
             const user = res.data[0];
             if (user.password == password) {
               delete user.password;
               commit("SET_USER", user);
+
               //set user in localStorage
               user.enterDate = new Date().toISOString();
               localStorage.setItem(
@@ -36,10 +38,10 @@ export default {
                 JSON.stringify(user)
               );
             } else {
-              throw new Error("Не верный логин или пароль");
+              throw new Error(errMsg);
             }
           } else {
-            throw new Error("Не верный логин или пароль");
+            throw new Error(errMsg);
           }
         });
     },
@@ -61,6 +63,6 @@ export default {
     logout({ commit }) {
       localStorage.removeItem(process.env.VUE_APP_LH_USER);
       commit("SET_USER", null);
-    }
-  }
+    },
+  },
 };

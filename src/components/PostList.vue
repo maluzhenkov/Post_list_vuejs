@@ -16,17 +16,17 @@
       <!-- Right side -->
       <div class="level-right" v-if="role === 'reader'">
         <div class="level-item">
-          <a class="button" @click="$emit('likePost', post)">
+          <a class="button" @click="$emit('clap-post', post)">
             <span class="icon is-small">
               <i class="mdi mdi-heart"></i>
             </span>
-            <span>{{post.likes}}</span>
+            <span>{{post.claps}}</span>
           </a>
         </div>
       </div>
       <div class="level-right" v-if="role === 'writer'">
         <div class="level-item">
-          <a class="button" @click="$emit('editPost', post)">
+          <a class="button" @click="$emit('edit-post', post)">
             <span class="icon is-small">
               <i class="mdi mdi-square-edit-outline"></i>
             </span>
@@ -34,7 +34,7 @@
           </a>
         </div>
         <div class="level-item">
-          <a class="button" @click="$emit('deletePost', post.id)">
+          <a class="button" @click="$emit('delete-post', post.id)">
             <span class="icon is-small">
               <i class="mdi mdi-delete"></i>
             </span>
@@ -54,12 +54,12 @@ export default {
   props: {
     post: {
       type: Object,
-      required: true
+      required: true,
     },
     role: {
       type: String,
-      default: "guest"
-    }
+      default: "guest",
+    },
   },
   methods: {
     getDate(string) {
@@ -86,7 +86,7 @@ export default {
         return `${months} ${declOfNum(months, [
           "месяц",
           "месяца",
-          "месяцев"
+          "месяцев",
         ])} назад`;
 
       const days = dateDiff.inDays(postDate, currentDate);
@@ -105,11 +105,11 @@ export default {
         return `${minutes} ${declOfNum(minutes, [
           "минута",
           "минуты",
-          "минут"
+          "минут",
         ])} назад`;
 
       return "минуту назад";
-    }
-  }
+    },
+  },
 };
 </script>
